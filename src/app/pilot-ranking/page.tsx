@@ -8,9 +8,9 @@ export default function PilotRankingPage() {
         <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] text-primary">
           Pilot Ranking
         </h1>
-        <div className="px-8 pt-6 pb-8 mb-4">
-          <PilotRanking />
-        </div>
+      </div>
+      <div>
+        <PilotRanking />
       </div>
     </div>
   );
