@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link, { LinkProps } from "next/link"
-import { useRouter } from "next/navigation"
-import { ViewVerticalIcon } from "@radix-ui/react-icons"
+import * as React from "react";
+import Link, { LinkProps } from "next/link";
+import { useRouter } from "next/navigation";
+import { ViewVerticalIcon } from "@radix-ui/react-icons";
 
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 export function MobileNav() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -63,27 +63,27 @@ export function MobileNav() {
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10">
           <div className="flex flex-col space-y-3">
-                <MobileLink href="/request" onOpenChange={setOpen}>
-                    Request Verification
-                </MobileLink>
-                <MobileLink href="/disclaimer" onOpenChange={setOpen}>
-                    Disclaimer
-                </MobileLink>
-                <MobileLink href="/about-us" onOpenChange={setOpen}>
-                    About Us
-                </MobileLink>
-                {/* TODO: Add a nice CTA "Earn More" */}
+            <MobileLink href="/pilot-ranking" onOpenChange={setOpen}>
+              Pilot Ranking
+            </MobileLink>
+            <MobileLink href="/crew-ranking" onOpenChange={setOpen}>
+              Crew Ranking
+            </MobileLink>
+            <MobileLink href="/about-us" onOpenChange={setOpen}>
+              About Us
+            </MobileLink>
+            {/* TODO: Add a nice CTA "Earn More" */}
           </div>
         </ScrollArea>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
 
 interface MobileLinkProps extends LinkProps {
-  onOpenChange?: (open: boolean) => void
-  children: React.ReactNode
-  className?: string
+  onOpenChange?: (open: boolean) => void;
+  children: React.ReactNode;
+  className?: string;
 }
 
 function MobileLink({
@@ -93,18 +93,18 @@ function MobileLink({
   children,
   ...props
 }: MobileLinkProps) {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Link
       href={href}
       onClick={() => {
-        router.push(href.toString())
-        onOpenChange?.(false)
+        router.push(href.toString());
+        onOpenChange?.(false);
       }}
       className={cn(className)}
       {...props}
     >
       {children}
     </Link>
-  )
+  );
 }

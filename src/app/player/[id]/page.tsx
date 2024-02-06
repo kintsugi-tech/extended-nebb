@@ -43,11 +43,11 @@ export default async function PlayerPage({
 
   return (
     <div className="container relative">
-      <div className="flex items-center justify-between space-y-2 pt-4">
+      <div className="pt-4">
         <h1 className="text-3xl font-bold tracking-tight text-primary">
           {player.moniker}
         </h1>
-        <p className="text-sm text-muted-foreground">{player.id}</p>
+        <p className="w-full break-words pt-2">{player.id}</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 pt-8">
         <Card>
