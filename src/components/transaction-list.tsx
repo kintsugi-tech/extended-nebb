@@ -33,7 +33,7 @@ export type TX = {
 };
 
 interface TransactionListTableProps {
-  txs: [TX];
+  txs: TX[];
 }
 
 export function renderInternalTx(tx: TX) {
