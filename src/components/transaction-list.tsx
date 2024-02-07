@@ -43,61 +43,64 @@ interface TransactionListTableProps {
 export function renderInternalTx(tx: TX) {
   let tx_details = null;
 
-  switch (tx.code_type) {
-    case "tx_transfer":
-      tx_details = (
-        <p className="mt-3">
-          <b>From:</b> {tx.tx.Transfer.source} <br />
-          <b>To:</b> {tx.tx.Transfer.target} <br />
-          <b>Token:</b> {tx.tx.Transfer.token} <br />
-          <b>Amount:</b> {tx.tx.Transfer.amount.toLocaleString()} <br />
-        </p>
-      );
-      break;
-    case "tx_unbond":
-      tx_details = (
-        <p className="mt-3">
-          <b>Validator:</b> {tx.tx.Unbond.validator} <br />
-          <b>Amount:</b> {tx.tx.Unbond.amount.toLocaleString()} <br />
-        </p>
-      );
-      break;
-    case "tx_reveal_pk":
-      tx_details = (
-        <p className="mt-3">
-          <b>PKey:</b> {tx.tx.RevealPK} <br />
-        </p>
-      );
-      break;
-    case "tx_bond":
-      tx_details = (
-        <p className="mt-3">
-          <b>Validator:</b> {tx.tx.Bond.validator} <br />
-          <b>Amount:</b> {tx.tx.Bond.amount.toLocaleString()} <br />
-          <b>Amount:</b> {tx.tx.Bond.source} <br />
-        </p>
-      );
-      break;
-    case "tx_ibc":
-      tx_details = (
-        <p className="mt-3">
-          <b>Message:</b> {Object.keys(tx.tx.Ibc)[0]} <br />
-        </p>
-      );
-      break;
-    case "tx_vote_proposal":
-      tx_details = (
-        <p className="mt-3">
-          <b>ID:</b> {tx.tx.VoteProposal.id} <br />
-          <b>Option:</b> {tx.tx.VoteProposal.vote} <br />
-          <b>Voter:</b> {tx.tx.VoteProposal.voter} <br />
-        </p>
-      );
-      break;
-    default:
-      tx_details = (
-        <p className="mt-3 font-mono w-full">{JSON.stringify(tx.tx)}</p>
-      );
+  // todo better types
+  if (tx.tx !== null) {
+    switch (tx.code_type) {
+      case "tx_transfer":
+        tx_details = (
+          <p className="mt-3">
+            <b>From:</b> {tx.tx.Transfer.source} <br />
+            <b>To:</b> {tx.tx.Transfer.target} <br />
+            <b>Token:</b> {tx.tx.Transfer.token} <br />
+            <b>Amount:</b> {tx.tx.Transfer.amount.toLocaleString()} <br />
+          </p>
+        );
+        break;
+      case "tx_unbond":
+        tx_details = (
+          <p className="mt-3">
+            <b>Validator:</b> {tx.tx.Unbond.validator} <br />
+            <b>Amount:</b> {tx.tx.Unbond.amount.toLocaleString()} <br />
+          </p>
+        );
+        break;
+      case "tx_reveal_pk":
+        tx_details = (
+          <p className="mt-3">
+            <b>PKey:</b> {tx.tx.RevealPK} <br />
+          </p>
+        );
+        break;
+      case "tx_bond":
+        tx_details = (
+          <p className="mt-3">
+            <b>Validator:</b> {tx.tx.Bond.validator} <br />
+            <b>Amount:</b> {tx.tx.Bond.amount.toLocaleString()} <br />
+            <b>Amount:</b> {tx.tx.Bond.source} <br />
+          </p>
+        );
+        break;
+      case "tx_ibc":
+        tx_details = (
+          <p className="mt-3">
+            <b>Message:</b> {Object.keys(tx.tx.Ibc)[0]} <br />
+          </p>
+        );
+        break;
+      case "tx_vote_proposal":
+        tx_details = (
+          <p className="mt-3">
+            <b>ID:</b> {tx.tx.VoteProposal.id} <br />
+            <b>Option:</b> {tx.tx.VoteProposal.vote} <br />
+            <b>Voter:</b> {tx.tx.VoteProposal.voter} <br />
+          </p>
+        );
+        break;
+      default:
+        tx_details = (
+          <p className="mt-3 font-mono w-full">{JSON.stringify(tx.tx)}</p>
+        );
+    }
   }
 
   if (tx.tx === null) {
@@ -116,6 +119,23 @@ export function renderInternalTx(tx: TX) {
       {tx_details}
     </>
   );
+}
+
+export function isShielded(tx: TX): boolean {
+  if (tx.tx !== null) {
+    if (
+      JSON.stringify(tx.tx).includes(
+        "tnam1pcqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzmefah"
+      )
+    ) {
+      return true;
+    }
+  } else {
+    if (tx.code_type === "tx_ibc") {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function formatTxHash(hash: string): string {
@@ -160,10 +180,13 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
                         {formatTxHash(tx.tx_hash)}
                       </TableCell>
                       <TableCell>{formatReturnCode(tx.return_code)}</TableCell>
-                      <TableCell>{formatTxType(tx.code_type)}</TableCell>
+                      <TableCell>
+                        {isShielded(tx) ? "Shielded" : ""}{" "}
+                        {formatTxType(tx.code_type)}
+                      </TableCell>
                       <TableCell>{tx.header_height}</TableCell>
                       <TableCell>
-                        {new Date(tx.header_time).toLocaleString()}
+                        {new Date(tx.header_time).toLocaleString("en-US")}
                       </TableCell>
                       <TableCell>
                         <CollapsibleTrigger className="text-primary">
