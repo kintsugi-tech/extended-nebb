@@ -116,6 +116,13 @@ export function formatReturnCode(return_code: number) {
   return <p>{return_code == 0 ? "✅" : "❌"}</p>;
 }
 
+export function formatTxType(tx_type: string) {
+  return tx_type
+    .replace("tx_", "")
+    .replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
+    .replace(/[-_]+(.)/g, (_, c) => " " + c.toUpperCase());
+}
+
 export default function TransactionList({ txs }: TransactionListTableProps) {
   return (
     <>
@@ -140,7 +147,7 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
                         {formatTxHash(tx.tx_hash)}
                       </TableCell>
                       <TableCell>{formatReturnCode(tx.return_code)}</TableCell>
-                      <TableCell>{tx.code_type}</TableCell>
+                      <TableCell>{formatTxType(tx.code_type)}</TableCell>
                       <TableCell>{tx.header_height}</TableCell>
                       <TableCell>
                         {new Date(tx.header_time).toLocaleString()}
