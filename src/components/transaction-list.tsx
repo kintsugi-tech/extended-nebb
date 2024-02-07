@@ -85,6 +85,15 @@ export function renderInternalTx(tx: TX) {
         </p>
       );
       break;
+    case "tx_vote_proposal":
+      tx_details = (
+        <p className="mt-3">
+          <b>ID:</b> {tx.tx.VoteProposal.id} <br />
+          <b>Option:</b> {tx.tx.VoteProposal.vote} <br />
+          <b>Voter:</b> {tx.tx.VoteProposal.voter} <br />
+        </p>
+      );
+      break;
     default:
       tx_details = (
         <p className="mt-3 font-mono w-full">{JSON.stringify(tx.tx)}</p>
@@ -100,6 +109,7 @@ export function renderInternalTx(tx: TX) {
   return (
     <>
       <p>
+        <b>TX Hash:</b> {formatTxHash(tx.tx_hash)} <br />
         <b>Wrapper Hash:</b> {formatTxHash(tx.wrapper_hash)} <br />
         <b>Block ID:</b> {formatTxHash(tx.block_hash)} <br />
       </p>
@@ -109,6 +119,9 @@ export function renderInternalTx(tx: TX) {
 }
 
 export function formatTxHash(hash: string): string {
+  if (hash === undefined) {
+    return "";
+  }
   return hash.toUpperCase();
 }
 
@@ -129,7 +142,7 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="font-medium">Hash</TableHead>
+            <TableHead className="w-96 font-medium">Hash</TableHead>
             <TableHead className="font-medium">Success</TableHead>
             <TableHead className="font-medium">Type</TableHead>
             <TableHead className="font-medium">Height</TableHead>
@@ -143,7 +156,7 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
                 <Collapsible key={tx.tx_hash} asChild>
                   <>
                     <TableRow>
-                      <TableCell className="font-mono">
+                      <TableCell className="max-w-96 font-mono truncate">
                         {formatTxHash(tx.tx_hash)}
                       </TableCell>
                       <TableCell>{formatReturnCode(tx.return_code)}</TableCell>

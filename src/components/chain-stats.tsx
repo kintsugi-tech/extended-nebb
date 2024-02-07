@@ -48,7 +48,7 @@ export default async function ChainStats() {
   }, 0);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 pt-8">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5 pt-8">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-primary">
@@ -78,7 +78,7 @@ export default async function ChainStats() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-xl font-bold">{stats.chain_id}</div>
+          <div className="text-md font-bold">{stats.chain_id}</div>
         </CardContent>
       </Card>
       <Card>
