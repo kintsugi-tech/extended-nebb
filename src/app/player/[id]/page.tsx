@@ -95,6 +95,12 @@ export default async function PlayerPage({
 
         <TransactionList txs={filtered_txs} />
       </div>
+      <div className="pt-8">
+        <p className="text-muted-foreground text-center">
+          Transactions are present in this list only if a valid pubkey is
+          provided in the memo
+        </p>
+      </div>
     </div>
   );
 }
