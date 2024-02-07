@@ -153,7 +153,7 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
                     </TableRow>
                     <CollapsibleContent asChild>
                       <TableRow>
-                        <TableCell colSpan={4}>
+                        <TableCell colSpan={6}>
                           {renderInternalTx(tx)}
                         </TableCell>
                       </TableRow>
