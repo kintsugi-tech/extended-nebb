@@ -3,6 +3,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header";
+import ChainStats from "@/components/chain-stats";
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
           Expedition
         </PageHeaderDescription>
       </PageHeader>
+
+      <ChainStats />
     </div>
   );
 }
