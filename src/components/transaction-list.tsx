@@ -17,10 +17,14 @@ import { Button } from "./ui/button";
 import { ChevronRightIcon } from "lucide-react";
 
 export type TX = {
-  hash: string;
+  tx_hash: string;
+  header_height: number;
+  header_time: string;
+  return_code: number;
+  block_hash: string;
   block_id: string;
   tx_type: string;
-  wrapper_id: string;
+  wrapper_hash: string;
   fee_amount_per_gas_unit: number;
   fee_token: string;
   gas_limit_multiplier: number;
@@ -96,8 +100,8 @@ export function renderInternalTx(tx: TX) {
   return (
     <>
       <p>
-        <b>Wrapper Hash:</b> {formatTxHash(tx.wrapper_id)} <br />
-        <b>Block ID:</b> {formatTxHash(tx.block_id)} <br />
+        <b>Wrapper Hash:</b> {formatTxHash(tx.wrapper_hash)} <br />
+        <b>Block ID:</b> {formatTxHash(tx.block_hash)} <br />
       </p>
       {tx_details}
     </>
@@ -108,6 +112,10 @@ export function formatTxHash(hash: string): string {
   return hash.toUpperCase();
 }
 
+export function formatReturnCode(return_code: number) {
+  return <p>{return_code == 0 ? "✅" : "❌"}</p>;
+}
+
 export default function TransactionList({ txs }: TransactionListTableProps) {
   return (
     <>
@@ -115,20 +123,28 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead className="font-medium">Hash</TableHead>
-            <TableHead className="font-medium">Time</TableHead>
+            <TableHead className="font-medium">Success</TableHead>
             <TableHead className="font-medium">Type</TableHead>
+            <TableHead className="font-medium">Height</TableHead>
+            <TableHead className="font-medium">Time</TableHead>
             <TableHead className="font-medium">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {txs
             ? txs.map((tx) => (
-                <Collapsible key={tx.hash} asChild>
+                <Collapsible key={tx.tx_hash} asChild>
                   <>
                     <TableRow>
-                      <TableCell>{formatTxHash(tx.hash)}</TableCell>
-                      <TableCell>{new Date().toLocaleDateString()}</TableCell>
+                      <TableCell className="font-mono">
+                        {formatTxHash(tx.tx_hash)}
+                      </TableCell>
+                      <TableCell>{formatReturnCode(tx.return_code)}</TableCell>
                       <TableCell>{tx.code_type}</TableCell>
+                      <TableCell>{tx.header_height}</TableCell>
+                      <TableCell>
+                        {new Date(tx.header_time).toLocaleString()}
+                      </TableCell>
                       <TableCell>
                         <CollapsibleTrigger className="text-primary">
                           <ChevronRightIcon className="h-4 w-4" />

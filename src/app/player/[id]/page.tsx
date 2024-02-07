@@ -22,7 +22,8 @@ async function getPlayer(pkey: string): Promise<Player> {
 // Get Transaction
 async function getTransactions(pkey: string): Promise<[TX]> {
   const res = await fetch(
-    `${process.env.INDEXER_API_BASE_URL}/tx_by_memo/${pkey}`
+    `${process.env.INDEXER_API_BASE_URL}/tx_by_memo/${pkey}`,
+    { next: { revalidate: 120 } } // Cache only 2 minutes
   );
 
   if (!res.ok) {
