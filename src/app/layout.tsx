@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   openGraph: {
     images: "/og-image.png",
   },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 interface RootLayoutProps {
