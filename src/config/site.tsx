@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Extended NEBB",
   url: "https://extended-nebb.kintsugi-nodes.com",
-  ogImage: "https://extended-nebb.kintsugi-nodes.com/og.jpg",
+  ogImage: "https://extended-nebb.kintsugi-nodes.com/og-image.png",
   title: "Extended NEBB | Namada SE Explorer",
   description:
     "Explore transactions from top players of the Namada Shielded Expedition",

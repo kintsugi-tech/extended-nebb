@@ -9,6 +9,13 @@ import { Toaster } from "@/components/ui/toaster";
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    images: "/og-image.png",
+  },
 };
 
 interface RootLayoutProps {
