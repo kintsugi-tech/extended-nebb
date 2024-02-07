@@ -48,7 +48,7 @@ export default async function PlayerPage({
         <h1 className="text-3xl font-bold tracking-tight text-primary">
           {player.moniker}
         </h1>
-        <p className="w-full break-words pt-2">{player.id}</p>
+        <p className="w-full break-words pt-2 font-mono">{player.id}</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 pt-8">
         <Card>
