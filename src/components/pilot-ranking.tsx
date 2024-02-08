@@ -4,7 +4,8 @@ import { Player, RankingTable } from "./ranking";
 
 async function getPilots(): Promise<Player[]> {
   const res = await fetch(
-    `https://it.api.namada.red/api/v1/scoreboard/pilots?page=0`
+    `https://it.api.namada.red/api/v1/scoreboard/pilots?page=0`,
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) {

@@ -8,7 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // https://it.api.namada.red/api/v1/player/search/tpknam1qqh9gu556m47vny2h58gfr0zardjl68j57dy4caw6mr9nkvgjes0uuwgz9m?player_kind=Pilot
 async function getPlayer(pkey: string): Promise<Player> {
   const res = await fetch(
-    `${process.env.NEBB_API_BASE_URL}/player/search/${pkey}?player_kind=Pilot`
+    `${process.env.NEBB_API_BASE_URL}/player/search/${pkey}?player_kind=Pilot`,
+    { next: { revalidate: 30 } }
   );
 
   if (!res.ok) {
