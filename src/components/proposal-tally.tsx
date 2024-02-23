@@ -1,5 +1,3 @@
-export const maxDuration = 180; // 3 minutes timeout
-
 interface ProposalTallyProps {
   id: number;
 }
@@ -14,6 +12,8 @@ export type TallyResponse = {
   total_voting_power: number;
 };
 
+export const maxDuration = 180; // 3 minutes timeout
+export const runtime = "nodejs";
 export async function getProposalTally(id: number): Promise<TallyResponse> {
   const res = await fetch(
     `${process.env.REST_API_BASE_URL}/proposal_result/${id}`,
