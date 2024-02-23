@@ -45,9 +45,9 @@ async function getProposal(id: number): Promise<ProposalResponse> {
 export default async function Proposals({
   params,
 }: {
-  params: { id: number };
+  params: { id: string };
 }) {
-  const prop = await getProposal(params.id);
+  const prop = await getProposal(parseInt(params.id));
 
   if (!prop) {
     return notFound();
@@ -113,7 +113,7 @@ export default async function Proposals({
           <CardHeader>Voting Status</CardHeader>
           <CardContent>
             <Suspense fallback={<SkeletonCard />}>
-              <ProposalTally id={params.id} />
+              <ProposalTally id={parseInt(params.id)} />
             </Suspense>
           </CardContent>
         </Card>
