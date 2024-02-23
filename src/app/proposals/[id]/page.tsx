@@ -1,4 +1,8 @@
+import ProposalTally from "@/components/proposal-tally";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type ProposalContent = {
   abstract: string;
@@ -41,14 +45,18 @@ async function getProposal(id: number): Promise<ProposalResponse> {
 export default async function Proposals({
   params,
 }: {
-  params: { id: string };
+  params: { id: number };
 }) {
-  const prop = await getProposal(parseInt(params.id));
+  const prop = await getProposal(params.id);
+
+  if (!prop) {
+    return notFound();
+  }
 
   return (
     <div className="container relative">
       <div className="pt-4">
-        <h1 className="text-3xl font-bold tracking-tight text-primary">
+        <h1 className="text-3xl font-bold tracking-tight text-primary max-w-3xl break-words">
           {params.id}. {prop.content.title}
         </h1>
         <p className="w-full break-words pt-2 font-mono"></p>
@@ -103,7 +111,11 @@ export default async function Proposals({
         </Card>
         <Card>
           <CardHeader>Voting Status</CardHeader>
-          <CardContent></CardContent>
+          <CardContent>
+            <Suspense fallback={<SkeletonCard />}>
+              <ProposalTally id={params.id} />
+            </Suspense>
+          </CardContent>
         </Card>
       </div>
       <div className="pt-8">
@@ -111,6 +123,18 @@ export default async function Proposals({
           Transactions are present in this list only if a valid pubkey is
           provided in the memo
         </p>
+      </div>
+    </div>
+  );
+}
+
+export function SkeletonCard() {
+  return (
+    <div className="flex flex-col space-y-3">
+      <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
       </div>
     </div>
   );
