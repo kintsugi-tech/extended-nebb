@@ -1,3 +1,5 @@
+"use client";
+
 interface ProposalTallyProps {
   id: number;
 }
@@ -14,7 +16,7 @@ export type TallyResponse = {
 
 async function getProposalTally(id: number): Promise<TallyResponse> {
   const res = await fetch(
-    `${process.env.REST_API_BASE_URL}/proposal_result/${id}`,
+    `${process.env.NEXT_PUBLIC_REST_API_BASE_URL}/proposal_result/${id}`,
     {
       next: { revalidate: 180 },
     }
