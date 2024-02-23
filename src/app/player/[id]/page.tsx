@@ -20,10 +20,30 @@ async function getPlayer(pkey: string): Promise<Player> {
   return data.players[0];
 }
 
+export type PaginationMetadata = {
+  total_records: number;
+  current_page: string;
+  total_pages: number;
+  next_page: string;
+  prev_page: string;
+};
+
+export type PaginatedResponse = {
+  data: [TX];
+  pagination: PaginationMetadata;
+};
+
 // Get Transaction
-async function getTransactions(pkey: string): Promise<[TX]> {
+async function getTransactions(
+  pkey: string,
+  page: string | undefined
+): Promise<PaginatedResponse> {
+  const pageQuery = page !== undefined ? `&page=${page}` : "";
+
+  const url = `${process.env.INDEXER_API_BASE_URL}/tx_by_memo/${pkey}?limit=30${pageQuery}`;
+
   const res = await fetch(
-    `${process.env.INDEXER_API_BASE_URL}/tx_by_memo/${pkey}`,
+    url,
     { next: { revalidate: 120 } } // Cache only 2 minutes
   );
 
@@ -36,12 +56,13 @@ async function getTransactions(pkey: string): Promise<[TX]> {
 
 export default async function PlayerPage({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams?: { page: string | undefined };
 }) {
   const player = await getPlayer(params.id);
-  const txs = await getTransactions(params.id);
-  const filtered_txs = txs.filter((tx) => tx.code_type !== "wrapper");
+  const txs = await getTransactions(params.id, searchParams?.page);
 
   return (
     <div className="container relative">
@@ -76,7 +97,7 @@ export default async function PlayerPage({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {filtered_txs.length.toLocaleString()}
+              {txs.data.length.toLocaleString()}
             </div>
           </CardContent>
         </Card>
@@ -94,7 +115,7 @@ export default async function PlayerPage({
       <div className="pt-8">
         <h2 className="text-2xl font-bold tracking-tight">Transaction List</h2>
 
-        <TransactionList txs={filtered_txs} />
+        <TransactionList txs={txs.data} pagination={txs.pagination} />
       </div>
       <div className="pt-8">
         <p className="text-muted-foreground text-center">

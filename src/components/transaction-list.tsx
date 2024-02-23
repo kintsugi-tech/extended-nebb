@@ -15,6 +15,17 @@ import {
 } from "@radix-ui/react-collapsible";
 import { Button } from "./ui/button";
 import { ChevronRightIcon } from "lucide-react";
+import { PaginationMetadata } from "@/app/player/[id]/page";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export type TX = {
   tx_hash: string;
@@ -38,6 +49,7 @@ export type TX = {
 
 interface TransactionListTableProps {
   txs: TX[];
+  pagination: PaginationMetadata;
 }
 
 export function renderInternalTx(tx: TX) {
@@ -156,7 +168,10 @@ export function formatTxType(tx_type: string) {
     .replace(/[-_]+(.)/g, (_, c) => " " + c.toUpperCase());
 }
 
-export default function TransactionList({ txs }: TransactionListTableProps) {
+export default function TransactionList({
+  txs,
+  pagination,
+}: TransactionListTableProps) {
   return (
     <>
       <Table>
@@ -207,6 +222,55 @@ export default function TransactionList({ txs }: TransactionListTableProps) {
             : null}
         </TableBody>
       </Table>
+      <TransactionPagination className="mt-5" pagination={pagination} />
     </>
+  );
+}
+
+function TransactionPagination({
+  className,
+  pagination,
+}: {
+  className: string;
+  pagination: PaginationMetadata;
+}) {
+  const pageNumbers = Array.from(
+    { length: pagination.total_pages },
+    (_, i) => i + 1
+  );
+
+  return (
+    <Pagination className={cn(className)}>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious
+            href={
+              pagination.prev_page != null
+                ? `?page=${pagination.prev_page}`
+                : undefined
+            }
+          />
+        </PaginationItem>
+        {pageNumbers.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={`?page=${page}`}
+              isActive={pagination.current_page == page.toString()}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        <PaginationItem>
+          <PaginationNext
+            href={
+              pagination.next_page != null
+                ? `?page=${pagination.next_page}`
+                : undefined
+            }
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
   );
 }
