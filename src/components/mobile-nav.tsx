@@ -69,6 +69,9 @@ export function MobileNav() {
             <MobileLink href="/crew-ranking" onOpenChange={setOpen}>
               Crew Ranking
             </MobileLink>
+            <MobileLink href="/proposals" onOpenChange={setOpen}>
+              Proposals
+            </MobileLink>
             <MobileLink href="/about-us" onOpenChange={setOpen}>
               About Us
             </MobileLink>
