@@ -1,4 +1,5 @@
 "use server";
+export const maxDuration = 180; // 3 minutes timeout
 
 import { Player } from "@/components/ranking";
 import TransactionList, { TX } from "@/components/transaction-list";
