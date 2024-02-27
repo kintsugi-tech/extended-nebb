@@ -1,3 +1,5 @@
+"use server";
+
 import { Player } from "@/components/ranking";
 import TransactionList, { TX } from "@/components/transaction-list";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,8 +32,6 @@ export type PaginatedResponse = {
   data: [TX];
   pagination: PaginationMetadata;
 };
-
-export const maxDuration = 180; // 3 minutes timeout
 
 // Get Transaction
 async function getTransactions(
