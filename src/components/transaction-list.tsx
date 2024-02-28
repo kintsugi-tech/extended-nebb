@@ -88,7 +88,7 @@ export function renderInternalTx(tx: TX) {
           <p className="mt-3">
             <b>Validator:</b> {tx.tx.Bond.validator} <br />
             <b>Amount:</b> {tx.tx.Bond.amount.toLocaleString()} <br />
-            <b>Amount:</b> {tx.tx.Bond.source} <br />
+            <b>Source:</b> {tx.tx.Bond.source} <br />
           </p>
         );
         break;
