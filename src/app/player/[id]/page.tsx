@@ -42,7 +42,6 @@ async function getTransactions(
 
   const url = `${process.env.INDEXER_API_BASE_URL}/tx_by_memo/${pkey}?limit=30${pageQuery}`;
 
-  console.log(url);
   const res = await fetch(
     url,
     { next: { revalidate: 120 } } // Cache only 2 minutes
